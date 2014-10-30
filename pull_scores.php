@@ -40,11 +40,8 @@ foreach($dom->getElementsByTagName('table') as $t)
 	}
 }
 
+//outputs the array of JSON as described
 echo json_encode($list);
-
-
-//$site = get_html($url);
-//print $site;
 
 // gets the html from given URL
 function get_html($url)
