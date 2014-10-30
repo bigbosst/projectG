@@ -1,5 +1,16 @@
 <?PHP
+/*
+	pull_scores.php
+
+	A Simple HTML Parcer with JSON output for metacritc scores
+	Part of ProjectG
+	Written by Troy Germain (troy.germain@gmail.com)
+
+*/
+//variable to set website to retrieve game/score data from
 $url='http://www.metacritic.com/game/playstation-3';
+
+$list = array();
 
 //get html code for the website
 $site = get_html($url);
@@ -8,35 +19,28 @@ $site = get_html($url);
 $dom = new DOMDocument();
 @$dom->loadHTML($site);
 $dom->preserveWhiteSpace = false;
-// Loop thre all the tr tags
-//foreach($dom->getElementsByTagName('a') as $e)
-//{
-//	if( !strcmp($e->getAttribute('class'),'metascore_anchor') )
-//	{
-//		var_dump($e->nodeValue);
-//	}
-//}
 
-	//echo $t->getAttribute('class'), PHP_EOL;
-
+//loop through all the tables
 foreach($dom->getElementsByTagName('table') as $t)
 {
+	//find the score_title_table
 	if( !strcmp($t->getAttribute('class'),'score_title_table') )
 	{
+		//analize each row of the table
 		$rows= $t->getElementsByTagName('tr');
 		foreach($rows as $row)
 		{
-			//echo $row->nodeValue,PHP_EOL;	
 			$cols = $row->getElementsByTagName('td');
-			echo trim($cols->item(0)->nodeValue," \t\n\r\0\x0B" );
-			echo "\t";
-			echo trim($cols->item(1)->nodeValue," \t\n\r\0\x0B" ),PHP_EOL;
+			$score = trim($cols->item(0)->nodeValue," \t\n\r\0\x0B" );
+			$title = trim($cols->item(1)->nodeValue," \t\n\r\0\x0B" );
+			$list[] = array('title' => $title, 'score' => $score);
+			//echo $title."\t".$score.PHP_EOL;
 			
 		}
 	}
 }
 
-
+echo json_encode($list);
 
 
 //$site = get_html($url);
