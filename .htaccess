@@ -1,0 +1,9 @@
+#Example APACHE2 HTACCESS file for projectG
+#Written by Troy Germain(troy.germain@gmail.com)
+
+#Example location for NGINX 
+#location /games {
+#  rewrite ^/games/(.*)$ /index.php?title=$1 last; break;
+#}
+
+RewriteRule ^/games/(.*)$     index.php?title=$1 [nc,qsa]
