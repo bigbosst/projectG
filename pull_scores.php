@@ -19,25 +19,17 @@ $site = get_html($url);
 $dom = new DOMDocument();
 @$dom->loadHTML($site);
 $dom->preserveWhiteSpace = false;
+$xpath = new DOMXpath($dom);
+$games = $xpath->query('//div[@class="main_stats"]');
 
-//loop through all the tables
-foreach($dom->getElementsByTagName('table') as $t)
+
+foreach($games as $game)
 {
-	//find the score_title_table
-	if( !strcmp($t->getAttribute('class'),'score_title_table') )
-	{
-		//analize each row of the table
-		$rows= $t->getElementsByTagName('tr');
-		foreach($rows as $row)
-		{
-			$cols = $row->getElementsByTagName('td');
-			$score = trim($cols->item(0)->nodeValue," \t\n\r\0\x0B" );
-			$title = trim($cols->item(1)->nodeValue," \t\n\r\0\x0B" );
-			$list[] = array('title' => $title, 'score' => $score);
-			//echo $title."\t".$score.PHP_EOL;
-			
-		}
-	}
+	$links = $game->getElementsByTagName("a");
+	$array = iterator_to_array($links);
+	$title = trim($array[0]->nodeValue," \t\n\r\0\x08" );
+	$score = trim($array[1]->nodeValue," \t\n\r\0\x08" );
+	$list[] = array('title' => $title, 'score' => $score);
 }
 
 //outputs the array of JSON as described

@@ -35,7 +35,6 @@ function rest_get()
 	{
 		$find=NULL;
 	}
-	
 	$game=get_game($find);
 	
 	if(empty($game))
@@ -62,7 +61,7 @@ function get_game($find)
 	//isolate the output of pull_scores.php and assign it to a variable
 	ob_start();
 	include 'pull_scores.php';
-	$jsonlist = ob_get_contents(); 
+	$jsonlist =  ob_get_contents(); 
 	ob_end_clean();
 
 	if(empty($find))
@@ -78,7 +77,7 @@ function get_game($find)
 		foreach($list as $game)
 		{
 			//echo json_encode($game), PHP_EOL;
-			if(!strcmp($game->title,$find) )
+			if( strcasecmp($game->title,$find) == 0 )
 			{
 				return json_encode($game);
 				break;
