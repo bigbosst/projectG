@@ -18,10 +18,13 @@ This is a quick personal project
 ]
 ```
 ### Part Two will expose a simple Rest API with 2 methods:
-- A HTTP “GET” request a “/games” returns all top PS3 games on metacritic page
-- A HTTP “GET” request at “/games/TITLE_OF_GAME_GOES_HERE” returns JSON for a specific game that matches the corresponding game title. For example, an HTTP GET at projectG/games/Gran%20Turismo%206 should return an individual JSON object for Gran Turismo 6 like so:
-
+- A HTTP “GET” request a “/games” returns all top PS3 games on metacritic page (this is the same output as represented in Part One)
+- A HTTP “GET” request at “/games/TITLE_OF_GAME_GOES_HERE” returns JSON for a specific game that matches the corresponding game title. 
+For example, an HTTP GET at projectG/games/Gran%20Turismo%206 will return an individual JSON object for Gran Turismo 6 like so:
 ```{
 "title": "Gran Turismo 6",
 “score”: 81
 }```
+If there is no match, the response will be a 404 with NULL output, 
+```curl -s -D -  http://projectg.raptorhunter.net/games/asdf```
+```HTTP/1.1 404 title not found ```
