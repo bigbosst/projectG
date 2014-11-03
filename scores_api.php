@@ -13,26 +13,41 @@
 
 header("Content-Type:application/json");
 
-if (isset($_GET['title']))
-{
-	$find=$_GET['title'];
-}
-else
-{
-	$find=NULL;
+switch ($_SERVER['REQUEST_METHOD']) {
+	case 'GET':
+		rest_get();  
+		break;
+	case 'HEAD':
+		deliver_response(200,"title found",NULL);
+		break;
+	default:
+		deliver_response(404,"Method Unsupported",NULL);
+		break;
 }
 
-$game=get_game($find);
-
-if(empty($game))
+function rest_get()
 {
-	//not found
-	deliver_response(404,"title not found",NULL);
-}
-else
-{
-	//return price
-	deliver_response(200,"title found",$game);
+	if (isset($_GET['title']))
+	{
+		$find=$_GET['title'];
+	}
+	else
+	{
+		$find=NULL;
+	}
+	
+	$game=get_game($find);
+	
+	if(empty($game))
+	{
+		//not found
+		deliver_response(404,"title not found",NULL);
+	}
+	else
+	{
+		//return price
+		deliver_response(200,"title found",$game);
+	}
 }
 
 /*
